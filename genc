@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+
+const ROOT = __DIR__;
+
+require ROOT.'/vendor/autoload.php';
+
+use App\Command\GenerateCode;
+use Symfony\Component\Console\Application;
+
+$application = new Application();
+
+$application->add(
+    new GenerateCode(
+        $_SERVER['GENC_TEMPLATES_PATH'] ?? throw new Exception('GENC_TEMPLATES_PATH env var not set')
+    )
+);
+
+$application->run();
