@@ -4,7 +4,8 @@
     "type": "project",
     "require": {
         "symfony/console": "^5.3",
-        "twig/twig": "^3.5"
+        "twig/twig": "^3.5",
+        "twig/string-extra": "^3.5"
     },
     "autoload": {
         "psr-4": {

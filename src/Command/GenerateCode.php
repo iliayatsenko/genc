@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Twig\Environment;
+use Twig\Extra\String\StringExtension;
 use Twig\Loader\FilesystemLoader;
 
 final class GenerateCode extends Command
@@ -31,6 +32,8 @@ final class GenerateCode extends Command
                 'strict_variables' => true,
             ]
         );
+
+        $this->twig->addExtension(new StringExtension());
     }
 
     protected function configure(): void
@@ -38,7 +41,7 @@ final class GenerateCode extends Command
         $this->addArgument(
             'templateName',
             InputArgument::REQUIRED,
-            'Name of template to be used, without extension. Corresponding .tpl file should exist in templates directory.',
+            'Name of template to be used, without extension. Corresponding .twig file should exist in templates directory.',
         );
         $this->addArgument(
             'destinationFilePath',
@@ -72,7 +75,7 @@ final class GenerateCode extends Command
             mkdir($destinationDir, 0777, true);
         }
 
-        $template = $this->twig->load($input->getArgument('templateName') . '.tpl');
+        $template = $this->twig->load($input->getArgument('templateName') . '.twig');
 
         file_put_contents(
             $input->getArgument('destinationFilePath'),

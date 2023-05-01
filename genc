@@ -10,10 +10,12 @@ use Symfony\Component\Console\Application;
 
 $application = new Application();
 
-$application->add(
-    new GenerateCode(
-        $_SERVER['GENC_TEMPLATES_PATH'] ?? throw new Exception('GENC_TEMPLATES_PATH env var not set')
-    )
+$generateCodeCommand = new GenerateCode(
+    $_SERVER['GENC_TEMPLATES_PATH']
+        ?? throw new Exception('GENC_TEMPLATES_PATH env var not set')
 );
+
+$application->add($generateCodeCommand);
+$application->setDefaultCommand($generateCodeCommand->getName(), isSingleCommand: true);
 
 $application->run();
